@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FinOps Simulator</string>
+    <string name="nenhum_projeto">Nenhum projeto cadastrado.\nToque no + para criar.</string>
+    <string name="nenhum_tipo">Nenhum tipo de recurso cadastrado.</string>
+    <string name="nenhum_recurso">Nenhum recurso alocado.\nToque no + para adicionar.</string>
+    <string name="salvar">Salvar</string>
+    <string name="cancelar">Cancelar</string>
+</resources>

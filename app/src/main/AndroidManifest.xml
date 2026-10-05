@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_launcher_foreground"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.FinOpsSimulator">
+
+        <activity
+            android:name=".activity.ListaProjetosActivity"
+            android:exported="true"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activity.FormProjetoActivity"
+            android:parentActivityName=".activity.ListaProjetosActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:label="Projeto" />
+
+        <activity
+            android:name=".activity.DashboardActivity"
+            android:parentActivityName=".activity.ListaProjetosActivity"
+            android:label="Dashboard" />
+
+        <activity
+            android:name=".activity.FormRecursoActivity"
+            android:parentActivityName=".activity.DashboardActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:label="Recurso" />
+
+        <activity
+            android:name=".activity.ListaTiposActivity"
+            android:parentActivityName=".activity.ListaProjetosActivity"
+            android:label="Tipos de Recurso" />
+
+        <activity
+            android:name=".activity.FormTipoActivity"
+            android:parentActivityName=".activity.ListaTiposActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:label="Tipo de Recurso" />
+
+    </application>
+
+</manifest>
