@@ -1,8 +1,8 @@
 package com.lucasjsm.finops_simulator.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -17,15 +17,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Formulário de criação/edição de Projeto (UC02 / UC04).
- * Provedor obrigatório na criação e somente leitura na edição.
- */
 public class FormProjetoActivity extends AppCompatActivity {
 
     private EditText etNome, etDescricao, etOrcamento;
     private Spinner spProvedor;
-    private Button btnSalvar, btnCancelar;
     private DatabaseHelper db;
     private long projetoId = -1;
     private Projeto projetoEdit;
@@ -38,12 +33,11 @@ public class FormProjetoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_form_projeto);
 
         db = new DatabaseHelper(this);
+
         etNome = findViewById(R.id.etProjetoNome);
         etDescricao = findViewById(R.id.etProjetoDescricao);
         etOrcamento = findViewById(R.id.etProjetoOrcamento);
         spProvedor = findViewById(R.id.spProjetoProvedor);
-        btnSalvar = findViewById(R.id.btnProjetoSalvar);
-        btnCancelar = findViewById(R.id.btnProjetoCancelar);
 
         ArrayAdapter<String> adapterProv = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, PROVEDORES);
         adapterProv.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -57,9 +51,6 @@ public class FormProjetoActivity extends AppCompatActivity {
         } else {
             setTitle("Novo Projeto");
         }
-
-        btnSalvar.setOnClickListener(v -> salvar());
-        btnCancelar.setOnClickListener(v -> finish());
     }
 
     private void carregarProjeto() {
@@ -77,7 +68,7 @@ public class FormProjetoActivity extends AppCompatActivity {
         }
     }
 
-    private void salvar() {
+    public void salvar(View v) {
         String nome = etNome.getText().toString().trim();
         String descricao = etDescricao.getText().toString().trim();
         String provedor = spProvedor.getSelectedItem().toString();
@@ -121,5 +112,11 @@ public class FormProjetoActivity extends AppCompatActivity {
             }
         }
         finish();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }
