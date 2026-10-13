@@ -17,6 +17,7 @@
             android:textSize="14sp"
             android:textColor="@color/primary"
             android:textStyle="bold"
+            android:layout_marginTop="90dp"
             android:layout_marginBottom="16dp" />
 
         <TextView
@@ -35,17 +36,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Quantidade *"
-            android:textStyle="bold"
-            android:layout_marginBottom="4dp" />
+            android:layout_marginBottom="4dp"
+            android:text="Volume *"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/etRecursoQuantidade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Ex: 2"
-            android:inputType="numberDecimal"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:hint="Ex: 3 (instâncias) ou 50 (GBs)"
+            android:inputType="numberDecimal" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +59,7 @@
             android:id="@+id/etRecursoPeriodo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Ex: 720 (horas no mês)"
+            android:hint="Ex: 3 (meses)"
             android:inputType="numberDecimal"
             android:layout_marginBottom="16dp" />
 
@@ -87,27 +88,13 @@
             android:textColor="@color/cost_green"
             android:layout_marginBottom="24dp" />
 
-        <LinearLayout
+        <!-- Botão Salvar sozinho e ocupando a largura total -->
+        <Button
+            android:id="@+id/btnRecursoSalvar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:onClick="salvar"
+            android:text="@string/salvar" />
 
-            <Button
-                android:id="@+id/btnRecursoCancelar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/cancelar"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_marginEnd="8dp" />
-
-            <Button
-                android:id="@+id/btnRecursoSalvar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/salvar"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
     </LinearLayout>
 </ScrollView>

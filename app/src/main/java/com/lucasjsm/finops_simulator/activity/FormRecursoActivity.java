@@ -3,7 +3,6 @@ package com.lucasjsm.finops_simulator.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,16 +19,11 @@ import com.lucasjsm.finops_simulator.model.TipoRecurso;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Formulário de adição/edição de Recurso Alocado (UC10 / UC11).
- * Spinner de tipos filtrado pelo provedor do projeto.
- */
 public class FormRecursoActivity extends AppCompatActivity {
 
     private Spinner spTipo;
     private EditText etQuantidade, etPeriodo, etObs;
     private TextView tvCustoPreview, tvProvedorInfo;
-    private Button btnSalvar, btnCancelar;
     private DatabaseHelper db;
     private long projetoId;
     private long recursoId = -1;
@@ -41,6 +35,10 @@ public class FormRecursoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_recurso);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         db = new DatabaseHelper(this);
         projetoId = getIntent().getLongExtra("projeto_id", -1);
@@ -59,44 +57,43 @@ public class FormRecursoActivity extends AppCompatActivity {
             return;
         }
 
-        spTipo = findViewById(R.id.spRecursoTipo);
-        etQuantidade = findViewById(R.id.etRecursoQuantidade);
-        etPeriodo = findViewById(R.id.etRecursoPeriodo);
-        etObs = findViewById(R.id.etRecursoObs);
-        tvCustoPreview = findViewById(R.id.tvRecursoCustoPreview);
-        tvProvedorInfo = findViewById(R.id.tvRecursoProvedorInfo);
-        btnSalvar = findViewById(R.id.btnRecursoSalvar);
-        btnCancelar = findViewById(R.id.btnRecursoCancelar);
+        spTipo = (Spinner) findViewById(R.id.spRecursoTipo);
+        etQuantidade = (EditText) findViewById(R.id.etRecursoQuantidade);
+        etPeriodo = (EditText) findViewById(R.id.etRecursoPeriodo);
+        etObs = (EditText) findViewById(R.id.etRecursoObs);
+        tvCustoPreview = (TextView) findViewById(R.id.tvRecursoCustoPreview);
+        tvProvedorInfo = (TextView) findViewById(R.id.tvRecursoProvedorInfo);
 
         tvProvedorInfo.setText("Provedor do projeto: " + projeto.getProvedor());
 
-        // Filtra tipos pelo provedor do projeto (RN03)
         tipos = db.listarTiposPorProvedor(projeto.getProvedor());
         if (tipos.isEmpty()) {
             Toast.makeText(this, "Não há tipos de recurso cadastrados para " + projeto.getProvedor() + ". Cadastre tipos primeiro.", Toast.LENGTH_LONG).show();
         }
 
-        ArrayAdapter<TipoRecurso> adapterTipo = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, tipos);
+        ArrayAdapter<TipoRecurso> adapterTipo = new ArrayAdapter<TipoRecurso>(this, android.R.layout.simple_spinner_item, tipos);
         adapterTipo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spTipo.setAdapter(adapterTipo);
 
         if (recursoId > 0) {
             setTitle("Editar Recurso");
             carregarRecurso();
-            spTipo.setEnabled(false); // tipo não editável
+            spTipo.setEnabled(false);
         } else {
             setTitle("Adicionar Recurso");
         }
 
-        // Preview de custo ao perder foco
-        View.OnFocusChangeListener previewListener = (v, hasFocus) -> {
-            if (!hasFocus) atualizarPreview();
+        View.OnFocusChangeListener previewListener = new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    atualizarPreview();
+                }
+            }
         };
+
         etQuantidade.setOnFocusChangeListener(previewListener);
         etPeriodo.setOnFocusChangeListener(previewListener);
-
-        btnSalvar.setOnClickListener(v -> salvar());
-        btnCancelar.setOnClickListener(v -> finish());
     }
 
     private void carregarRecurso() {
@@ -121,7 +118,13 @@ public class FormRecursoActivity extends AppCompatActivity {
             double per = Double.parseDouble(etPeriodo.getText().toString().trim());
             if (spTipo.getSelectedItem() != null) {
                 TipoRecurso t = (TipoRecurso) spTipo.getSelectedItem();
-                double custo = qtd * t.getCustoUnitario() * per;
+
+                double multiplicadorTempo = 1.0;
+                if (t.getUnidade() != null && t.getUnidade().trim().equalsIgnoreCase("hora")) {
+                    multiplicadorTempo = 730.0;
+                }
+
+                double custo = qtd * t.getCustoUnitario() * multiplicadorTempo * per;
                 tvCustoPreview.setText(String.format(Locale.US, "Custo estimado: US$ %.2f", custo));
             }
         } catch (Exception e) {
@@ -129,7 +132,7 @@ public class FormRecursoActivity extends AppCompatActivity {
         }
     }
 
-    private void salvar() {
+    public void salvar(View v) {
         if (tipos.isEmpty()) {
             Toast.makeText(this, "Cadastre tipos de recurso para este provedor primeiro", Toast.LENGTH_LONG).show();
             return;
@@ -176,12 +179,12 @@ public class FormRecursoActivity extends AppCompatActivity {
             recursoEdit.setQuantidade(quantidade);
             recursoEdit.setPeriodo(periodo);
             recursoEdit.setObservacao(obs);
-            recursoEdit.calcularCusto(tipoSelecionado.getCustoUnitario());
+            recursoEdit.calcularCusto(tipoSelecionado.getCustoUnitario(), tipoSelecionado.getUnidade());
             db.atualizarRecurso(recursoEdit);
             Toast.makeText(this, "Recurso atualizado", Toast.LENGTH_SHORT).show();
         } else {
             RecursoAlocado r = new RecursoAlocado(projetoId, tipoSelecionado.getId(), quantidade, periodo, obs);
-            r.calcularCusto(tipoSelecionado.getCustoUnitario());
+            r.calcularCusto(tipoSelecionado.getCustoUnitario(), tipoSelecionado.getUnidade());
             long id = db.inserirRecurso(r);
             if (id > 0) {
                 Toast.makeText(this, "Recurso adicionado – US$ " + String.format(Locale.US, "%.2f", r.getCustoEstimado()), Toast.LENGTH_SHORT).show();
@@ -191,5 +194,11 @@ public class FormRecursoActivity extends AppCompatActivity {
             }
         }
         finish();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }
