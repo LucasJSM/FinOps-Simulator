@@ -47,9 +47,9 @@ public class FormProjetoActivity extends AppCompatActivity {
         if (projetoId > 0) {
             setTitle("Editar Projeto");
             carregarProjeto();
-            spProvedor.setEnabled(false); // RN01 – provedor não editável
+            spProvedor.setEnabled(false); // Provedor não editável
         } else {
-            setTitle("Novo Projeto");
+            setTitle("Criar Projeto");
         }
     }
 

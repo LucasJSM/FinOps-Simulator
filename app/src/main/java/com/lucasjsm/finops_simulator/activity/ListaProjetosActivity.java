@@ -3,6 +3,7 @@ package com.lucasjsm.finops_simulator.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,14 +15,10 @@ import com.lucasjsm.finops_simulator.R;
 import com.lucasjsm.finops_simulator.adapter.ProjetoAdapter;
 import com.lucasjsm.finops_simulator.database.DatabaseHelper;
 import com.lucasjsm.finops_simulator.model.Projeto;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-/**
- * Tela inicial – Lista de Projetos (UC01).
- */
-public class ListaProjetosActivity extends AppCompatActivity {
+public class ListaProjetosActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private ListView listViewProjetos;
     private TextView tvVazio;
@@ -33,30 +30,14 @@ public class ListaProjetosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_projetos);
-        setTitle("FinOps Simulator – Projetos");
+        setTitle("FinOps Simulator");
 
         db = new DatabaseHelper(this);
         listViewProjetos = findViewById(R.id.listViewProjetos);
         tvVazio = findViewById(R.id.tvListaProjetosVazio);
-        FloatingActionButton fabNovo = findViewById(R.id.fabNovoProjeto);
 
-        fabNovo.setOnClickListener(v -> {
-            Intent i = new Intent(ListaProjetosActivity.this, FormProjetoActivity.class);
-            startActivity(i);
-        });
-
-        listViewProjetos.setOnItemClickListener((parent, view, position, id) -> {
-            Projeto p = projetos.get(position);
-            Intent i = new Intent(ListaProjetosActivity.this, DashboardActivity.class);
-            i.putExtra("projeto_id", p.getId());
-            startActivity(i);
-        });
-
-        listViewProjetos.setOnItemLongClickListener((parent, view, position, id) -> {
-            Projeto p = projetos.get(position);
-            mostrarOpcoesProjeto(p);
-            return true;
-        });
+        listViewProjetos.setOnItemClickListener(this);
+        listViewProjetos.setOnItemLongClickListener(this);
     }
 
     @Override
@@ -76,6 +57,26 @@ public class ListaProjetosActivity extends AppCompatActivity {
             adapter = new ProjetoAdapter(this, projetos);
             listViewProjetos.setAdapter(adapter);
         }
+    }
+
+    public void novoProjeto(View v) {
+        Intent i = new Intent(getApplicationContext(), FormProjetoActivity.class);
+        startActivity(i);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Projeto p = projetos.get(position);
+        Intent i = new Intent(getApplicationContext(), DashboardActivity.class);
+        i.putExtra("projeto_id", p.getId());
+        startActivity(i);
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        Projeto p = projetos.get(position);
+        mostrarOpcoesProjeto(p);
+        return true; // O retorno 'true' indica que o clique longo foi totalmente consumido
     }
 
     private void mostrarOpcoesProjeto(Projeto p) {

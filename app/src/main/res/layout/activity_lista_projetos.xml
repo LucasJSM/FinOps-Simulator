@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@android:color/darker_gray"
-        android:dividerHeight="0.5dp"
+        android:dividerHeight="1dp"
         android:layout_marginTop="90dp"
         android:padding="8dp" />
 
@@ -34,6 +34,7 @@
         android:layout_margin="16dp"
         android:contentDescription="Novo Projeto"
         app:srcCompat="@android:drawable/ic_input_add"
-        app:backgroundTint="@color/primary" />
+        app:backgroundTint="@color/primary"
+        android:onClick="novoProjeto" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
