@@ -35,18 +35,6 @@
             android:parentActivityName=".activity.DashboardActivity"
             android:windowSoftInputMode="adjustResize"
             android:label="Recurso" />
-
-        <activity
-            android:name=".activity.ListaTiposActivity"
-            android:parentActivityName=".activity.ListaProjetosActivity"
-            android:label="Tipos de Recurso" />
-
-        <activity
-            android:name=".activity.FormTipoActivity"
-            android:parentActivityName=".activity.ListaTiposActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:label="Tipo de Recurso" />
-
     </application>
 
 </manifest>

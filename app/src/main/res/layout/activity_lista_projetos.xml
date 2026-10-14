@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="0.5dp"
+        android:layout_marginTop="90dp"
         android:padding="8dp" />
 
     <TextView
@@ -34,15 +35,5 @@
         android:contentDescription="Novo Projeto"
         app:srcCompat="@android:drawable/ic_input_add"
         app:backgroundTint="@color/primary" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabGerenciarTipos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start"
-        android:layout_margin="16dp"
-        android:contentDescription="Gerenciar Tipos"
-        app:srcCompat="@android:drawable/ic_menu_manage"
-        app:backgroundTint="@color/accent" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

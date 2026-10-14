@@ -39,15 +39,9 @@ public class ListaProjetosActivity extends AppCompatActivity {
         listViewProjetos = findViewById(R.id.listViewProjetos);
         tvVazio = findViewById(R.id.tvListaProjetosVazio);
         FloatingActionButton fabNovo = findViewById(R.id.fabNovoProjeto);
-        FloatingActionButton fabTipos = findViewById(R.id.fabGerenciarTipos);
 
         fabNovo.setOnClickListener(v -> {
             Intent i = new Intent(ListaProjetosActivity.this, FormProjetoActivity.class);
-            startActivity(i);
-        });
-
-        fabTipos.setOnClickListener(v -> {
-            Intent i = new Intent(ListaProjetosActivity.this, ListaTiposActivity.class);
             startActivity(i);
         });
 
