@@ -3,6 +3,7 @@ package com.lucasjsm.finops_simulator.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,11 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Dashboard do Projeto (UC03).
- * Exibe provedor, orçamento, custo total e lista de recursos.
- */
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private TextView tvNome, tvProvedor, tvOrcamento, tvCustoTotal, tvPercentual, tvVazio;
     private ListView listViewRecursos;
@@ -54,37 +51,9 @@ public class DashboardActivity extends AppCompatActivity {
         tvPercentual = findViewById(R.id.tvDashPercentual);
         tvVazio = findViewById(R.id.tvDashVazio);
         listViewRecursos = findViewById(R.id.listViewRecursos);
-        FloatingActionButton fabAdd = findViewById(R.id.fabAddRecurso);
-        FloatingActionButton fabEdit = findViewById(R.id.fabEditProjeto);
-        FloatingActionButton fabDel = findViewById(R.id.fabDelProjeto);
 
-        fabAdd.setOnClickListener(v -> {
-            Intent i = new Intent(DashboardActivity.this, FormRecursoActivity.class);
-            i.putExtra("projeto_id", projetoId);
-            startActivity(i);
-        });
-
-        fabEdit.setOnClickListener(v -> {
-            Intent i = new Intent(DashboardActivity.this, FormProjetoActivity.class);
-            i.putExtra("projeto_id", projetoId);
-            startActivity(i);
-        });
-
-        fabDel.setOnClickListener(v -> confirmarExclusaoProjeto());
-
-        listViewRecursos.setOnItemClickListener((parent, view, position, id) -> {
-            RecursoAlocado r = recursos.get(position);
-            Intent i = new Intent(DashboardActivity.this, FormRecursoActivity.class);
-            i.putExtra("projeto_id", projetoId);
-            i.putExtra("recurso_id", r.getId());
-            startActivity(i);
-        });
-
-        listViewRecursos.setOnItemLongClickListener((parent, view, position, id) -> {
-            RecursoAlocado r = recursos.get(position);
-            confirmarExclusaoRecurso(r);
-            return true;
-        });
+        listViewRecursos.setOnItemClickListener(this);
+        listViewRecursos.setOnItemLongClickListener(this);
     }
 
     @Override
@@ -129,6 +98,38 @@ public class DashboardActivity extends AppCompatActivity {
             adapter = new RecursoAdapter(this, recursos);
             listViewRecursos.setAdapter(adapter);
         }
+    }
+
+    public void adicionarRecurso(View v) {
+        Intent i = new Intent(getApplicationContext(), FormRecursoActivity.class);
+        i.putExtra("projeto_id", projetoId);
+        startActivity(i);
+    }
+
+    public void editarProjeto(View v) {
+        Intent i = new Intent(getApplicationContext(), FormProjetoActivity.class);
+        i.putExtra("projeto_id", projetoId);
+        startActivity(i);
+    }
+
+    public void excluirProjeto(View v) {
+        confirmarExclusaoProjeto();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        RecursoAlocado r = recursos.get(position);
+        Intent i = new Intent(getApplicationContext(), FormRecursoActivity.class);
+        i.putExtra("projeto_id", projetoId);
+        i.putExtra("recurso_id", r.getId());
+        startActivity(i);
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        RecursoAlocado r = recursos.get(position);
+        confirmarExclusaoRecurso(r);
+        return true;
     }
 
     private void confirmarExclusaoRecurso(RecursoAlocado r) {
