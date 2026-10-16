@@ -36,8 +36,10 @@ public class RecursoAdapter extends ArrayAdapter<RecursoAlocado> {
             TextView tvCusto = convertView.findViewById(R.id.tvItemRecursoCusto);
 
             tvNome.setText(r.getNomeTipo() != null ? r.getNomeTipo() : "Recurso");
-            tvDetalhe.setText(String.format(Locale.US, "%.1f × %.1f %s", r.getQuantidade(), r.getPeriodo(),
-                    r.getUnidade() != null ? r.getUnidade() : ""));
+            tvDetalhe.setText(String.format(Locale.US, "%.1f %s × %.1f meses",
+                    r.getQuantidade(),
+                    r.getUnidade() != null ? r.getUnidade() : "",
+                    r.getPeriodo()));
             tvCusto.setText(String.format(Locale.US, "US$ %.2f", r.getCustoEstimado()));
         }
         return convertView;

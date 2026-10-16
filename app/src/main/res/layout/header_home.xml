@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Header da ListView da Home: Hero Card + título da seção -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingBottom="4dp">
+
+    <!-- ========== HERO CARD AZUL ========== -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_hero_card"
+        android:padding="20dp"
+        android:elevation="4dp">
+
+        <!-- Badge SIMULADOR FINOPS -->
+        <TextView
+            android:id="@+id/tvHeroBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="SIMULADOR FINOPS"
+            android:textAllCaps="true"
+            android:textColor="#BFDBFE"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.08" />
+
+        <!-- Ícone calculadora (canto superior direito) -->
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:alpha="0.7"
+            android:src="@drawable/ic_calculator"
+            android:contentDescription="Simulador" />
+
+        <!-- Título principal -->
+        <TextView
+            android:id="@+id/tvHeroTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvHeroBadge"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="36dp"
+            android:text="Planeje seu ambiente Cloud"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!-- Botão branco: Criar Novo Projeto -->
+        <Button
+            android:id="@+id/btnCriarProjeto"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@id/tvHeroTitulo"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_button_white"
+            android:drawableStart="@drawable/ic_plus_blue"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="+  Criar Novo Projeto"
+            android:textAllCaps="false"
+            android:textColor="@color/primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
+            android:onClick="onCriarProjetoClick"
+            android:backgroundTint="@null"
+            app:backgroundTint="@null"
+            />
+    </RelativeLayout>
+
+    <!-- ========== SEÇÃO: Selecione um projeto ========== -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/tvVerTodos"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selecione um projeto"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Edite nome, provedor e orçamento ou abra o dashboard"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvVerTodos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="4dp"
+            android:text="Ver todos"
+            android:textColor="@color/primary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="onVerTodosClick" />
+    </RelativeLayout>
+</LinearLayout>
