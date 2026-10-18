@@ -1,40 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:fitsSystemWindows="true">
 
-    <ListView
-        android:id="@+id/listViewProjetos"
+    <!-- CABEÇALHO -->
+    <LinearLayout
+        android:id="@+id/headerListaProjetos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/bg_header_blue"
+        android:gravity="center_vertical"
+        android:minHeight="72dp"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="20dp"
+        android:elevation="4dp">
+
+        <ImageButton
+            android:id="@+id/btnListaProjetosVoltar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_back_circle_white"
+            android:contentDescription="Voltar"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_arrow_back_white"
+            android:onClick="onVoltarClick" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Projetos"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- CONTEÚDO -->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp"
-        android:layout_marginTop="90dp"
-        android:padding="8dp" />
+        android:layout_below="@id/headerListaProjetos"
+        android:layout_above="@id/bottom_navigation"
+        android:background="@color/background">
 
-    <TextView
-        android:id="@+id/tvListaProjetosVazio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="@string/nenhum_projeto"
-        android:textSize="16sp"
-        android:textColor="@color/text_secondary"
-        android:visibility="gone" />
+        <ListView
+            android:id="@+id/listViewProjetos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="12dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="88dp"
+            android:scrollbars="none" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabNovoProjeto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="Novo Projeto"
-        app:srcCompat="@android:drawable/ic_input_add"
-        app:backgroundTint="@color/primary"
-        android:onClick="novoProjeto" />
+        <TextView
+            android:id="@+id/tvListaProjetosVazio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="32dp"
+            android:text="@string/nenhum_projeto"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:visibility="gone" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <!-- BOTÃO -->
+        <ImageButton
+            android:id="@+id/fabNovoProjeto"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_fab_add"
+            android:contentDescription="Novo Projeto"
+            android:elevation="8dp"
+            android:padding="14dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_plus"
+            android:onClick="novoProjeto" />
+    </FrameLayout>
+
+    <!-- BOTTOM NAV -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/nav_background"
+        android:elevation="8dp"
+        app:itemIconTint="@color/bottom_nav_color_selector"
+        app:itemTextColor="@color/bottom_nav_color_selector"
+        app:itemRippleColor="@color/ripple_light"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconSize="22dp"
+        app:itemTextAppearanceActive="@style/TextAppearance.FinOps.BottomNav.Active"
+        app:itemTextAppearanceInactive="@style/TextAppearance.FinOps.BottomNav.Inactive" />
+
+</RelativeLayout>

@@ -105,8 +105,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/bg_field_readonly"
-                    android:drawableEnd="@android:drawable/arrow_down_float"
-                    android:drawablePadding="8dp"
                     android:paddingStart="14dp"
                     android:paddingEnd="14dp"
                     android:paddingTop="12dp"
