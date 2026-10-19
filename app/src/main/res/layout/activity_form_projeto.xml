@@ -176,7 +176,7 @@
                         android:spinnerMode="dropdown" />
                 </FrameLayout>
 
-                <!-- Orçamento Máximo * -->
+                <!-- Orçamento Máximo -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

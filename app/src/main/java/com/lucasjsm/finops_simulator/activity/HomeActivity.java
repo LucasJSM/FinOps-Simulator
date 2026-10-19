@@ -20,10 +20,6 @@ import com.lucasjsm.finops_simulator.model.Projeto;
 
 import java.util.List;
 
-/**
- * Tela inicial (Home) do FinOps Simulator.
- * Exibe hero card, atalho para criar projeto e lista resumida de projetos.
- */
 public class HomeActivity extends AppCompatActivity {
 
     private ListView listViewProjetos;
@@ -45,18 +41,15 @@ public class HomeActivity extends AppCompatActivity {
         tvVazio = (TextView) findViewById(R.id.tvHomeVazio);
         bottomNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
-        // Header da ListView (Hero + seção "Selecione um projeto")
         headerView = LayoutInflater.from(this).inflate(R.layout.header_home, listViewProjetos, false);
         listViewProjetos.addHeaderView(headerView, null, false);
 
-        // Bottom Navigation — aba Início selecionada
         bottomNav.setSelectedItemId(R.id.nav_inicio);
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 if (id == R.id.nav_inicio) {
-                    // Já estamos na Home
                     return true;
                 } else if (id == R.id.nav_projetos) {
                     startActivity(new Intent(HomeActivity.this, ListaProjetosActivity.class));
@@ -106,20 +99,13 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    /** Botão do Hero: Criar Novo Projeto */
     public void onCriarProjetoClick(View v) {
         Intent i = new Intent(getApplicationContext(), FormProjetoActivity.class);
         startActivity(i);
     }
 
-    /** Link "Ver todos" → Lista completa de projetos */
     public void onVerTodosClick(View v) {
         Intent i = new Intent(getApplicationContext(), ListaProjetosActivity.class);
         startActivity(i);
-    }
-
-    /** Botão info do header → placeholder Sobre */
-    public void onInfoClick(View v) {
-        Toast.makeText(this, "Sobre o aplicativo em breve", Toast.LENGTH_SHORT).show();
     }
 }

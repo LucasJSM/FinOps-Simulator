@@ -31,16 +31,6 @@
             android:textStyle="bold"
             android:letterSpacing="0.08" />
 
-        <!-- Ícone calculadora (canto superior direito) -->
-        <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:alpha="0.7"
-            android:src="@drawable/ic_calculator"
-            android:contentDescription="Simulador" />
-
         <!-- Título principal -->
         <TextView
             android:id="@+id/tvHeroTitulo"
