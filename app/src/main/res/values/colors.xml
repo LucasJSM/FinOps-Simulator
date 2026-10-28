@@ -1,18 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
+    <!-- === Cores principais === -->
+    <color name="primary">#2563EB</color>
+    <color name="primary_dark">#1D4ED8</color>
+    <color name="primary_light">#3B82F6</color>
+    <color name="primary_container">#DBEAFE</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="primary">#1565C0</color>
-    <color name="primary_dark">#0D47A1</color>
-    <color name="accent">#FF6F00</color>
-    <color name="background">#F5F5F5</color>
+    <color name="on_primary">#FFFFFF</color>
+
+    <!-- Secundária -->
+    <color name="accent">#2563EB</color>
+    <color name="secondary">#64748B</color>
+
+    <!-- Backgrounds (gray claro) -->
+    <color name="background">#F8FAFC</color>
+    <color name="surface">#FFFFFF</color>
     <color name="card_bg">#FFFFFF</color>
-    <color name="text_secondary">#757575</color>
-    <color name="cost_green">#2E7D32</color>
-    <color name="cost_red">#C62828</color>
+    <color name="surface_variant">#F1F5F9</color>
+    <color name="divider">#E2E8F0</color>
+    <color name="border">#E2E8F0</color>
+
+    <!-- Textos -->
+    <color name="text_primary">#0F172A</color>
+    <color name="text_secondary">#64748B</color>
+    <color name="text_tertiary">#94A3B8</color>
+    <color name="text_hint">#94A3B8</color>
+
+    <!-- Status de orçamento -->
+    <color name="status_healthy">#10B981</color>
+    <color name="status_healthy_bg">#ECFDF5</color>
+    <color name="status_healthy_text">#047857</color>
+    <color name="cost_green">#10B981</color>
+
+    <color name="status_warning">#F59E0B</color>
+    <color name="status_warning_bg">#FFFBEB</color>
+    <color name="status_warning_text">#B45309</color>
+
+    <color name="status_danger">#F43F5E</color>
+    <color name="status_danger_bg">#FFF1F2</color>
+    <color name="status_danger_text">#BE123C</color>
+    <color name="cost_red">#F43F5E</color>
+
+    <!-- Bottom Navigation -->
+    <color name="nav_active">#2563EB</color>
+    <color name="nav_inactive">#94A3B8</color>
+    <color name="nav_active_bg">#EFF6FF</color>
+    <color name="nav_background">#FFFFFF</color>
+
+    <!-- Chips de provedor -->
+    <color name="chip_aws_bg">#FFFBEB</color>
+    <color name="chip_aws_text">#B45309</color>
+    <color name="chip_gcp_bg">#EFF6FF</color>
+    <color name="chip_gcp_text">#1D4ED8</color>
+    <color name="chip_azure_bg">#F0F9FF</color>
+    <color name="chip_azure_text">#0369A1</color>
+    <color name="chip_oci_bg">#FFF1F2</color>
+    <color name="chip_oci_text">#BE123C</color>
+
+    <!-- Barras de Progresso -->
+    <color name="progress_track">#E2E8F0</color>
+    <color name="progress_fill">#2563EB</color>
+
+    <!-- Sombra -->
+    <color name="scrim">#80000000</color>
+    <color name="ripple_light">#1A2563EB</color>
 </resources>

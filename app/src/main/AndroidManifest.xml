@@ -10,7 +10,7 @@
         android:theme="@style/Theme.FinOpsSimulator">
 
         <activity
-            android:name=".activity.ListaProjetosActivity"
+            android:name=".activity.MainActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
@@ -20,10 +20,20 @@
         </activity>
 
         <activity
+            android:name=".activity.ListaProjetosActivity"
+            android:parentActivityName=".activity.MainActivity"
+            android:label="Projetos" />
+
+        <activity
+            android:name=".activity.ListaTiposActivity"
+            android:parentActivityName=".activity.MainActivity"
+            android:label="Catálogo de Serviços" />
+
+        <activity
             android:name=".activity.FormProjetoActivity"
             android:parentActivityName=".activity.ListaProjetosActivity"
             android:windowSoftInputMode="adjustResize"
-            android:label="Projeto" />
+            android:label="Tratar Projeto" />
 
         <activity
             android:name=".activity.DashboardActivity"
@@ -34,7 +44,7 @@
             android:name=".activity.FormRecursoActivity"
             android:parentActivityName=".activity.DashboardActivity"
             android:windowSoftInputMode="adjustResize"
-            android:label="Recurso" />
+            android:label="Tratar Recurso" />
     </application>
 
 </manifest>

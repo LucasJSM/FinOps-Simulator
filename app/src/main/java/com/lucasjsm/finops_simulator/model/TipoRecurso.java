@@ -1,22 +1,26 @@
 package com.lucasjsm.finops_simulator.model;
 
-/**
- * Model: TipoRecurso
- * Catálogo de tipos de recursos de nuvem, organizados por provedor.
- * Exemplos: EC2 (AWS), S3 (AWS), BigQuery (GCP), Apache Spark (GCP), etc.
- */
+import java.util.Locale;
+
 public class TipoRecurso {
 
     private long id;
     private String nome;
     private String provedor;       // AWS, GCP, Azure, OCI
-    private String unidade;        // hora, GB, instância, etc.
+    private String unidade;        // hora, GB, milhao_reqs
     private double custoUnitario;
     private String descricao;
 
+    // Construtor padrão
     public TipoRecurso() {
+        this.nome = "Novo Serviço";
+        this.provedor = "AWS";
+        this.unidade = "hora";
+        this.custoUnitario = 0.0;
+        this.descricao = "";
     }
 
+    // Construtor sem ID
     public TipoRecurso(String nome, String provedor, String unidade, double custoUnitario, String descricao) {
         this.nome = nome;
         this.provedor = provedor;
@@ -25,6 +29,17 @@ public class TipoRecurso {
         this.descricao = descricao;
     }
 
+    // Construtor completo com ID
+    public TipoRecurso(long id, String nome, String provedor, String unidade, double custoUnitario, String descricao) {
+        this.id = id;
+        this.nome = nome;
+        this.provedor = provedor;
+        this.unidade = unidade;
+        this.custoUnitario = custoUnitario;
+        this.descricao = descricao;
+    }
+
+    // Métodos Getters e Setters
     public long getId() {
         return id;
     }
@@ -75,6 +90,6 @@ public class TipoRecurso {
 
     @Override
     public String toString() {
-        return nome + " (" + provedor + ") - US$ " + String.format("%.4f", custoUnitario) + "/" + unidade;
+        return getNome() + " (" + getProvedor() + ") - R$ " + String.format(Locale.getDefault(), "%.3f", getCustoUnitario()) + "/" + getUnidade();
     }
 }

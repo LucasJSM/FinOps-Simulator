@@ -1,11 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.FinOpsSimulator" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <!-- Tema principal: Material Light SEM ActionBar padrão (headers customizados no layout) -->
+    <style name="Theme.FinOpsSimulator" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/primary_dark</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
         <item name="colorSecondary">@color/accent</item>
         <item name="colorOnSecondary">@color/white</item>
-        <item name="android:statusBarColor">@color/primary_dark</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowBackground">@color/background</item>
+        <!-- Remove a ActionBar roxa padrão -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- Estilo de botão primário largo (rodapé) -->
+    <style name="Widget.FinOps.Button.Primary" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_height">52dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="backgroundTint">@color/primary</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="android:elevation">2dp</item>
+        <item name="rippleColor">@color/ripple_light</item>
+    </style>
+
+    <!-- Estilo de botão outlined / secundário -->
+    <style name="Widget.FinOps.Button.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_height">52dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="strokeColor">@color/border</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="rippleColor">@color/ripple_light</item>
+    </style>
+
+    <!-- Card padrão do protótipo -->
+    <style name="Widget.FinOps.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardBackgroundColor">@color/card_bg</item>
+        <item name="strokeWidth">0dp</item>
+    </style>
+
+    <!-- TextInputLayout com contorno arredondado -->
+    <style name="Widget.FinOps.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">14dp</item>
+        <item name="boxCornerRadiusTopEnd">14dp</item>
+        <item name="boxCornerRadiusBottomStart">14dp</item>
+        <item name="boxCornerRadiusBottomEnd">14dp</item>
+        <item name="boxStrokeColor">@color/primary</item>
+        <item name="hintTextColor">@color/primary</item>
+        <item name="android:textColorHint">@color/text_hint</item>
+    </style>
+
+    <!-- Tipografia da Bottom Navigation -->
+    <style name="TextAppearance.FinOps.BottomNav.Active" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/nav_active</item>
+    </style>
+
+    <style name="TextAppearance.FinOps.BottomNav.Inactive" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/nav_inactive</item>
     </style>
 </resources>
