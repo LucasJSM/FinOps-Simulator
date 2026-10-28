@@ -6,9 +6,9 @@
     android:background="@color/background"
     android:fitsSystemWindows="true">
 
-    <!-- CABEÇALHO -->
+    <!-- HEADER -->
     <LinearLayout
-        android:id="@+id/headerFormRecurso"
+        android:id="@+id/headerTratarRecurso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -23,7 +23,7 @@
         android:elevation="4dp">
 
         <ImageButton
-            android:id="@+id/btnFormRecursoVoltar"
+            android:id="@+id/btnTratarRecursoVoltarHeader"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/bg_back_circle_white"
@@ -31,7 +31,7 @@
             android:padding="8dp"
             android:scaleType="centerInside"
             android:src="@drawable/ic_arrow_back_white"
-            android:onClick="onVoltarClick" />
+            android:onClick="voltar" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -43,11 +43,11 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvFormRecursoTitulo"
+                android:id="@+id/tvTratarRecursoTitulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Adicionar Recurso"
+                android:gravity="left"
+                android:text="Tratar Recurso"
                 android:textColor="@color/white"
                 android:textSize="17sp"
                 android:textStyle="bold"
@@ -55,7 +55,7 @@
                 android:ellipsize="end" />
 
             <TextView
-                android:id="@+id/tvRecursoProvedorInfo"
+                android:id="@+id/tvTratarRecursoProvedorInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -72,9 +72,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/headerFormRecurso"
-        android:layout_above="@id/bottom_navigation"
-        android:background="@drawable/bg_form_sheet"
+        android:layout_below="@id/headerTratarRecurso"
+        android:layout_above="@+id/bottom_navigation"
         android:orientation="vertical"
         android:elevation="2dp">
 
@@ -100,37 +99,46 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
-                    android:text="Tipo do Recurso *"
+                    android:text="Tipo do Recurso de Nuvem *"
                     android:textColor="@color/text_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
-                <!-- Spinner -->
-                <Spinner
-                    android:id="@+id/spRecursoTipo"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="52dp"
                     android:layout_marginBottom="18dp"
-                    android:minHeight="48dp"
-                    android:spinnerMode="dropdown" />
+                    android:background="@drawable/bg_spinner_wrapper"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="12dp">
 
-                <!-- Volume Contratado -->
+                    <Spinner
+                        android:id="@+id/spTratarRecursoTipo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="@android:color/transparent"
+                        android:popupBackground="@color/white"
+                        android:spinnerMode="dropdown" />
+                </FrameLayout>
+
+                <!-- Volume/Quantidade -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
-                    android:text="Volume Contratado *"
+                    android:text="Volume / Quantidade *"
                     android:textColor="@color/text_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/etRecursoQuantidade"
+                    android:id="@+id/etTratarRecursoQuantidade"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:layout_marginBottom="18dp"
                     android:background="@drawable/bg_edittext"
-                    android:hint="Ex: 50 GBs, 2 instâncias..."
+                    android:hint="Ex: 100 (GB, horas, instâncias...)"
                     android:inputType="numberDecimal"
                     android:maxLines="1"
                     android:paddingStart="14dp"
@@ -144,18 +152,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
-                    android:text="Período"
+                    android:text="Período em Meses *"
                     android:textColor="@color/text_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/etRecursoPeriodo"
+                    android:id="@+id/etTratarRecursoPeriodo"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:layout_marginBottom="18dp"
                     android:background="@drawable/bg_edittext"
-                    android:hint="Ex: 30 horas, 5.0 meses, 1 mês..."
+                    android:hint="Ex: 1.0 ou 12.0 meses"
                     android:inputType="numberDecimal"
                     android:maxLines="1"
                     android:paddingStart="14dp"
@@ -164,24 +172,24 @@
                     android:textColorHint="@color/text_hint"
                     android:textSize="14sp" />
 
-                <!-- Descrição -->
+                <!-- Observação -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
-                    android:text="Descrição"
+                    android:text="Observação"
                     android:textColor="@color/text_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/etRecursoObs"
+                    android:id="@+id/etTratarRecursoObs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="18dp"
                     android:background="@drawable/bg_edittext"
                     android:gravity="top|start"
-                    android:hint="Opcional"
+                    android:hint="Opcional (ex: Ambiente de produção)"
                     android:inputType="textCapSentences"
                     android:minHeight="52dp"
                     android:minLines="1"
@@ -193,7 +201,7 @@
                     android:textColorHint="@color/text_hint"
                     android:textSize="14sp" />
 
-                <!-- Card Custo Estimado -->
+                <!-- Custo Estimado -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -209,14 +217,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginStart="10dp"
-                        android:text="Custo Estimado:"
+                        android:text="Custo Estimado Calculado:"
                         android:textColor="#047857"
-                        android:textSize="14sp"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tvRecursoCustoPreview"
+                        android:id="@+id/tvTratarRecursoCustoPreview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="R$ -"
@@ -228,9 +235,9 @@
             </LinearLayout>
         </ScrollView>
 
-        <!-- Botão Salvar -->
+        <!-- BOTÃO SALVAR -->
         <Button
-            android:id="@+id/btnRecursoSalvar"
+            android:id="@+id/btnTratarRecursoAcao"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginStart="20dp"
@@ -247,11 +254,10 @@
             android:textSize="15sp"
             android:textStyle="bold"
             android:elevation="0dp"
-            android:stateListAnimator="@null"
             android:onClick="salvar" />
     </LinearLayout>
 
-    <!-- BOTTOM NAV -->
+    <!-- BOTTOM NAVBAR -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -259,6 +265,7 @@
         android:layout_alignParentBottom="true"
         android:background="@color/nav_background"
         android:elevation="8dp"
+        android:minHeight="64dp"
         app:itemIconTint="@color/bottom_nav_color_selector"
         app:itemTextColor="@color/bottom_nav_color_selector"
         app:itemRippleColor="@color/ripple_light"

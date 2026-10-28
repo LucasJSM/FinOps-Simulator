@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!-- Header da ListView da Home: Hero Card + título da seção -->
+<!-- Header da ListView da tela principal: Hero Card + título da seção -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingBottom="4dp">
 
-    <!-- ========== HERO CARD AZUL ========== -->
+    <!-- CARD  -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +17,7 @@
         android:padding="20dp"
         android:elevation="4dp">
 
-        <!-- Badge SIMULADOR FINOPS -->
+        <!-- Tag -->
         <TextView
             android:id="@+id/tvHeroBadge"
             android:layout_width="wrap_content"
@@ -31,7 +30,7 @@
             android:textStyle="bold"
             android:letterSpacing="0.08" />
 
-        <!-- Título principal -->
+        <!-- Título do Card -->
         <TextView
             android:id="@+id/tvHeroTitulo"
             android:layout_width="match_parent"
@@ -44,7 +43,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <!-- Botão branco: Criar Novo Projeto -->
+        <!-- Botão Criar Projeto -->
         <Button
             android:id="@+id/btnCriarProjeto"
             android:layout_width="match_parent"
@@ -66,11 +65,10 @@
             android:stateListAnimator="@null"
             android:onClick="onCriarProjetoClick"
             android:backgroundTint="@null"
-            app:backgroundTint="@null"
-            />
+            app:backgroundTint="@null" />
     </RelativeLayout>
 
-    <!-- ========== SEÇÃO: Selecione um projeto ========== -->
+    <!-- Lista de Projetos -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

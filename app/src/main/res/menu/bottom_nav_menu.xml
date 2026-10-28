@@ -12,12 +12,4 @@
         android:id="@+id/nav_catalogo"
         android:icon="@drawable/ic_nav_catalogo"
         android:title="Catálogo" />
-    <item
-        android:id="@+id/nav_dashboard"
-        android:icon="@drawable/ic_nav_dashboard"
-        android:title="Dashboard" />
-    <item
-        android:id="@+id/nav_sobre"
-        android:icon="@drawable/ic_nav_sobre"
-        android:title="Sobre" />
 </menu>

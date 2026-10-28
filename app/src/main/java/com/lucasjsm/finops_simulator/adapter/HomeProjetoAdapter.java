@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.lucasjsm.finops_simulator.R;
 import com.lucasjsm.finops_simulator.activity.DashboardActivity;
@@ -21,8 +22,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Adapter da ListView da Home.
- * Exibe cards de resumo com campos somente leitura e botões de ação internos.
+ * Adapter da ListView da MainActivity
  */
 public class HomeProjetoAdapter extends ArrayAdapter<Projeto> {
 
@@ -58,10 +58,10 @@ public class HomeProjetoAdapter extends ArrayAdapter<Projeto> {
             return convertView;
         }
 
-        // Numeração visual (1-based)
+        // Numeração do projeto
         holder.tvNumero.setText(String.format(Locale.getDefault(), "PROJETO #%02d", position + 1));
 
-        // Chip: custo total / mês e percentual do orçamento
+        // Chip do custo total/mês e percentual do orçamento
         double custo = p.getCustoTotal();
         double orcamento = p.getOrcamentoMaximo();
         int pct = 0;
@@ -71,39 +71,41 @@ public class HomeProjetoAdapter extends ArrayAdapter<Projeto> {
         holder.tvChipCusto.setText(String.format(Locale.getDefault(),
                 "R$ %.2f/mês (%d%%)", custo, pct));
 
-        // Cor do chip conforme status
+        // Cor do chip conforme status do orçamento
         if (pct > 100) {
-            holder.tvChipCusto.setTextColor(getContext().getResources().getColor(R.color.status_danger_text));
+            holder.tvChipCusto.setTextColor(ContextCompat.getColor(getContext(), R.color.status_danger_text));
             holder.tvChipCusto.setBackgroundResource(R.drawable.bg_chip_cost_danger);
         } else if (pct >= 80) {
-            holder.tvChipCusto.setTextColor(getContext().getResources().getColor(R.color.status_warning_text));
+            holder.tvChipCusto.setTextColor(ContextCompat.getColor(getContext(), R.color.status_warning_text));
             holder.tvChipCusto.setBackgroundResource(R.drawable.bg_chip_cost_warning);
         } else {
-            holder.tvChipCusto.setTextColor(getContext().getResources().getColor(R.color.primary));
+            holder.tvChipCusto.setTextColor(ContextCompat.getColor(getContext(), R.color.primary));
             holder.tvChipCusto.setBackgroundResource(R.drawable.bg_chip_cost);
         }
 
-        holder.tvNome.setText(p.getNome() != null ? p.getNome() : "—");
-        holder.tvProvedor.setText(p.getProvedor() != null ? p.getProvedor() : "—");
+        holder.tvNome.setText(p.getNome());
+        holder.tvProvedor.setText(p.getProvedor());
         holder.tvOrcamento.setText(String.format(Locale.getDefault(), "%.0f", orcamento));
 
-        // Clique: Abrir Dashboard
+        // Abrir Dashboard
         holder.btnDashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getContext(), DashboardActivity.class);
-                i.putExtra("projeto_id", p.getId());
-                getContext().startActivity(i);
+                Intent intent = new Intent(getContext(), DashboardActivity.class);
+                intent.putExtra("projeto_id", p.getId());
+                getContext().startActivity(intent);
             }
         });
 
-        // Clique: Recursos (FormRecursoActivity para alocar)
+        // Adicionar Recursos
         holder.btnRecursos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getContext(), FormRecursoActivity.class);
-                i.putExtra("projeto_id", p.getId());
-                getContext().startActivity(i);
+                Intent intent = new Intent(getContext(), FormRecursoActivity.class);
+                intent.putExtra("acao", -1);
+                intent.putExtra("id", 0L);
+                intent.putExtra("projeto_id", p.getId());
+                getContext().startActivity(intent);
             }
         });
 

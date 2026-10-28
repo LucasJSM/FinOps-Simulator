@@ -6,7 +6,7 @@
     android:background="@color/background"
     android:fitsSystemWindows="true">
 
-    <!-- CABEÇALHO -->
+    <!-- HEADER -->
     <LinearLayout
         android:id="@+id/headerListaProjetos"
         android:layout_width="match_parent"
@@ -49,6 +49,17 @@
                 android:textColor="@color/white"
                 android:textSize="17sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="left"
+                android:text="Lista de Projetos Cadastrados"
+                android:textColor="#BFDBFE"
+                android:textSize="11sp"
+                android:maxLines="2"
+                android:ellipsize="end" />
         </LinearLayout>
     </LinearLayout>
 
@@ -85,7 +96,7 @@
             android:textSize="14sp"
             android:visibility="gone" />
 
-        <!-- BOTÃO -->
+        <!-- BOTÃO NOVO PROJETO -->
         <ImageButton
             android:id="@+id/fabNovoProjeto"
             android:layout_width="56dp"
@@ -102,7 +113,7 @@
             android:onClick="novoProjeto" />
     </FrameLayout>
 
-    <!-- BOTTOM NAV -->
+    <!-- BOTTOM NAVBAR -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -110,6 +121,7 @@
         android:layout_alignParentBottom="true"
         android:background="@color/nav_background"
         android:elevation="8dp"
+        android:minHeight="64dp"
         app:itemIconTint="@color/bottom_nav_color_selector"
         app:itemTextColor="@color/bottom_nav_color_selector"
         app:itemRippleColor="@color/ripple_light"

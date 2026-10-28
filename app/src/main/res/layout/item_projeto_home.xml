@@ -17,7 +17,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Linha superior: PROJETO #0X + chip de custo -->
+        <!-- Nome do Projeto | Budget -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -60,7 +60,7 @@
             android:textColor="@color/text_secondary"
             android:textSize="12sp" />
 
-        <!-- Campo readonly: Nome -->
+        <!-- Campo Nome -->
         <TextView
             android:id="@+id/tvItemHomeNome"
             android:layout_width="match_parent"
@@ -76,7 +76,7 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
-        <!-- Linha: Provedor | Orçamento -->
+        <!-- Provedor | Orçamento -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -147,7 +147,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Botões de ação -->
+        <!-- BOTÕES -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -171,7 +171,7 @@
                 android:gravity="center"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
-                android:text="Abrir Dashboard"
+                android:text="Dashboard"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="13sp"
@@ -195,7 +195,7 @@
                 android:gravity="center"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:text=" + Recursos"
+                android:text="+ Recursos"
                 android:textAllCaps="false"
                 android:textColor="@color/text_secondary"
                 android:textSize="13sp"

@@ -10,19 +10,22 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.lucasjsm.finops_simulator.R;
-import com.lucasjsm.finops_simulator.database.DatabaseHelper;
 import com.lucasjsm.finops_simulator.model.Projeto;
 
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Adapter da ListView de ListaProjetosActivity
+ */
 public class ProjetoAdapter extends ArrayAdapter<Projeto> {
 
     private final LayoutInflater inflater;
 
-    public ProjetoAdapter(Context context, List<Projeto> projetos, DatabaseHelper db) {
+    public ProjetoAdapter(Context context, List<Projeto> projetos) {
         super(context, 0, projetos);
         this.inflater = LayoutInflater.from(context);
     }
@@ -50,8 +53,8 @@ public class ProjetoAdapter extends ArrayAdapter<Projeto> {
             return convertView;
         }
 
-        holder.tvNome.setText(p.getNome() != null ? p.getNome() : "—");
-        holder.tvProvedor.setText(p.getProvedor() != null ? p.getProvedor() : "—");
+        holder.tvNome.setText(p.getNome());
+        holder.tvProvedor.setText(p.getProvedor());
 
         double custo = p.getCustoTotal();
         double orcamento = p.getOrcamentoMaximo();
@@ -59,23 +62,21 @@ public class ProjetoAdapter extends ArrayAdapter<Projeto> {
         holder.tvCusto.setText(String.format(Locale.getDefault(), "R$ %,.2f/mês", custo));
         holder.tvOrcamento.setText(String.format(Locale.getDefault(), "R$ %,.2f/mês", orcamento));
 
-        int pct = 0;
         int pctReal = 0;
         if (orcamento > 0) {
             pctReal = (int) Math.round((custo / orcamento) * 100.0);
-            pct = Math.min(pctReal, 100);
         }
-        holder.pbOrcamento.setProgress(pct);
+        holder.pbOrcamento.setProgress(Math.min(pctReal, 100));
 
         if (pctReal > 100) {
             holder.pbOrcamento.setProgressDrawable(
-                    getContext().getResources().getDrawable(R.drawable.progress_budget_danger));
+                    ContextCompat.getDrawable(getContext(), R.drawable.progress_budget_danger));
         } else if (pctReal >= 80) {
             holder.pbOrcamento.setProgressDrawable(
-                    getContext().getResources().getDrawable(R.drawable.progress_budget_warning));
+                    ContextCompat.getDrawable(getContext(), R.drawable.progress_budget_warning));
         } else {
             holder.pbOrcamento.setProgressDrawable(
-                    getContext().getResources().getDrawable(R.drawable.progress_budget));
+                    ContextCompat.getDrawable(getContext(), R.drawable.progress_budget));
         }
 
         return convertView;

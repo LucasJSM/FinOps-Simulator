@@ -6,9 +6,9 @@
     android:background="@color/background"
     android:fitsSystemWindows="true">
 
-    <!-- CABEÇALHO -->
+    <!-- HEADER -->
     <LinearLayout
-        android:id="@+id/headerFormProjeto"
+        android:id="@+id/headerTratarProjeto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -22,9 +22,8 @@
         android:paddingBottom="20dp"
         android:elevation="4dp">
 
-        <!-- Voltar -->
         <ImageButton
-            android:id="@+id/btnFormProjetoVoltar"
+            android:id="@+id/btnTratarProjetoVoltarHeader"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/bg_back_circle_white"
@@ -32,7 +31,7 @@
             android:padding="8dp"
             android:scaleType="centerInside"
             android:src="@drawable/ic_arrow_back_white"
-            android:onClick="onVoltarClick" />
+            android:onClick="voltar" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -44,7 +43,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvFormProjetoTitulo"
+                android:id="@+id/tvTratarProjetoTitulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
@@ -56,7 +55,7 @@
                 android:ellipsize="end" />
 
             <TextView
-                android:id="@+id/tvFormProjetoSubtitulo"
+                android:id="@+id/tvTratarProjetoSubtitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -73,7 +72,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/headerFormProjeto"
+        android:layout_below="@id/headerTratarProjeto"
         android:layout_above="@id/bottom_navigation"
         android:orientation="vertical"
         android:elevation="2dp">
@@ -95,7 +94,7 @@
                 android:paddingTop="24dp"
                 android:paddingBottom="16dp">
 
-                <!-- Nome * -->
+                <!-- Nome -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -106,12 +105,11 @@
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/etProjetoNome"
+                    android:id="@+id/etTratarProjetoNome"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:layout_marginBottom="18dp"
                     android:background="@drawable/bg_edittext"
-                    android:drawablePadding="12dp"
                     android:hint="Nome do projeto (Ex: Projeto Cloud Bot)"
                     android:inputType="textCapSentences"
                     android:maxLines="1"
@@ -121,39 +119,37 @@
                     android:textColorHint="@color/text_hint"
                     android:textSize="14sp" />
 
-                <!-- Descrição * -->
+                <!-- Descrição -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
-                    android:text="Descrição *"
+                    android:text="Descrição"
                     android:textColor="@color/text_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/etProjetoDescricao"
+                    android:id="@+id/etTratarProjetoDescricao"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="52dp"
                     android:layout_marginBottom="18dp"
                     android:background="@drawable/bg_edittext"
-                    android:drawablePadding="12dp"
-                    android:gravity="top|start"
                     android:hint="Descrição do projeto"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:minHeight="52dp"
-                    android:minLines="2"
-                    android:padding="10dp"
+                    android:inputType="textCapSentences"
+                    android:maxLines="2"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
                     android:textColor="@color/text_primary"
                     android:textColorHint="@color/text_hint"
                     android:textSize="14sp" />
 
-                <!-- Provedor de Nuvem * -->
+                <!-- Provedor de Nuvem -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
-                    android:text="Provedor de Nuvem *"
+                    android:text="Provedor de Nuvem"
                     android:textColor="@color/text_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -167,7 +163,7 @@
                     android:paddingEnd="12dp">
 
                     <Spinner
-                        android:id="@+id/spProjetoProvedor"
+                        android:id="@+id/spTratarProjetoProvedor"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
@@ -181,16 +177,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
-                    android:text="Orçamento Máximo (R$) *"
+                    android:text="Orçamento Máximo (R$)"
                     android:textColor="@color/text_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/etProjetoOrcamento"
+                    android:id="@+id/etTratarProjetoOrcamento"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="16dp"
                     android:background="@drawable/bg_edittext"
                     android:drawablePadding="12dp"
                     android:hint="R$  Ex: 500.00"
@@ -205,9 +201,9 @@
             </LinearLayout>
         </ScrollView>
 
-        <!-- Botão Salvar -->
+        <!-- BOTÃO SALVAR -->
         <Button
-            android:id="@+id/btnProjetoSalvar"
+            android:id="@+id/btnTratarProjetoAcao"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginStart="20dp"
@@ -215,7 +211,6 @@
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/bg_button_primary"
-            android:drawablePadding="8dp"
             android:gravity="center"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
@@ -225,11 +220,10 @@
             android:textSize="15sp"
             android:textStyle="bold"
             android:elevation="0dp"
-            android:stateListAnimator="@null"
             android:onClick="salvar" />
     </LinearLayout>
 
-    <!-- BOTTOM NAVIGATION -->
+    <!-- BOTTOM NAVBAR -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -237,6 +231,7 @@
         android:layout_alignParentBottom="true"
         android:background="@color/nav_background"
         android:elevation="8dp"
+        android:minHeight="64dp"
         app:itemIconTint="@color/bottom_nav_color_selector"
         app:itemTextColor="@color/bottom_nav_color_selector"
         app:itemRippleColor="@color/ripple_light"

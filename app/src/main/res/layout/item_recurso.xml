@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardItemRecurso"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="16dp"
     app:cardElevation="2dp"
     app:cardBackgroundColor="@color/card_bg"
@@ -15,7 +19,7 @@
         android:layout_height="wrap_content"
         android:padding="14dp">
 
-        <!-- Ícone do recurso -->
+        <!-- Ícone -->
         <FrameLayout
             android:id="@+id/flItemRecursoIcon"
             android:layout_width="44dp"
@@ -33,7 +37,7 @@
                 android:contentDescription="Recurso" />
         </FrameLayout>
 
-        <!-- Nome + detalhe -->
+        <!-- Nome + Cálculo -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,7 +71,7 @@
                 android:ellipsize="end" />
         </LinearLayout>
 
-        <!-- Custo + botões lápis/lixeira -->
+        <!-- Custo + Botão de excluir -->
         <LinearLayout
             android:id="@+id/llItemRecursoAcoes"
             android:layout_width="wrap_content"
@@ -86,34 +90,17 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageButton
+                android:id="@+id/btnItemRecursoExcluir"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_marginTop="6dp"
-                android:orientation="horizontal"
-                android:gravity="end">
-
-                <ImageButton
-                    android:id="@+id/btnItemRecursoEditar"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="Editar recurso"
-                    android:padding="4dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_edit_orange" />
-
-                <ImageButton
-                    android:id="@+id/btnItemRecursoExcluir"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_marginStart="2dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="Excluir recurso"
-                    android:padding="4dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_delete_red" />
-            </LinearLayout>
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Excluir recurso"
+                android:focusable="false"
+                android:padding="4dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_delete_red" />
         </LinearLayout>
     </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>

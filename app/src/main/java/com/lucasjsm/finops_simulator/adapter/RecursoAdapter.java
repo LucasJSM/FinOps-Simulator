@@ -17,6 +17,9 @@ import com.lucasjsm.finops_simulator.model.RecursoAlocado;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Adapter da ListView da DashboardActivity
+ */
 public class RecursoAdapter extends ArrayAdapter<RecursoAlocado> {
 
     public interface OnRecursoActionListener {
@@ -45,7 +48,6 @@ public class RecursoAdapter extends ArrayAdapter<RecursoAlocado> {
             holder.tvNome = (TextView) convertView.findViewById(R.id.tvItemRecursoNome);
             holder.tvDetalhe = (TextView) convertView.findViewById(R.id.tvItemRecursoDetalhe);
             holder.tvCusto = (TextView) convertView.findViewById(R.id.tvItemRecursoCusto);
-            holder.btnEditar = (ImageButton) convertView.findViewById(R.id.btnItemRecursoEditar);
             holder.btnExcluir = (ImageButton) convertView.findViewById(R.id.btnItemRecursoExcluir);
             convertView.setTag(holder);
         } else {
@@ -61,13 +63,13 @@ public class RecursoAdapter extends ArrayAdapter<RecursoAlocado> {
 
         String unidade = r.getUnidade() != null ? r.getUnidade() : "";
         holder.tvDetalhe.setText(String.format(Locale.getDefault(),
-                "%.1f %s x %.1f mês",
-                r.getQuantidade(), unidade, r.getPeriodo()));
+                "%.1f %s x %.1f mês", r.getQuantidade(), unidade, r.getPeriodo()));
 
         holder.tvCusto.setText(String.format(Locale.getDefault(),
                 "R$ %.2f", r.getCustoEstimado()));
 
-        holder.btnEditar.setOnClickListener(new View.OnClickListener() {
+        // Card para editar recurso
+        convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listener != null) {
@@ -76,6 +78,7 @@ public class RecursoAdapter extends ArrayAdapter<RecursoAlocado> {
             }
         });
 
+        // Botão de excluir recurso
         holder.btnExcluir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,7 +95,6 @@ public class RecursoAdapter extends ArrayAdapter<RecursoAlocado> {
         TextView tvNome;
         TextView tvDetalhe;
         TextView tvCusto;
-        ImageButton btnEditar;
         ImageButton btnExcluir;
     }
 }

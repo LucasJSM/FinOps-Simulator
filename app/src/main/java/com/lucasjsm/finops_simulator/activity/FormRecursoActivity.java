@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -18,72 +19,85 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lucasjsm.finops_simulator.R;
-import com.lucasjsm.finops_simulator.database.DatabaseHelper;
 import com.lucasjsm.finops_simulator.model.Projeto;
+import com.lucasjsm.finops_simulator.model.ProjetoDAO;
 import com.lucasjsm.finops_simulator.model.RecursoAlocado;
+import com.lucasjsm.finops_simulator.model.RecursoAlocadoDAO;
 import com.lucasjsm.finops_simulator.model.TipoRecurso;
+import com.lucasjsm.finops_simulator.model.TipoRecursoDAO;
 
 import java.util.List;
 import java.util.Locale;
 
 /**
- * Formulário de adição/edição de recurso alocado.
- * Preview de custo atualiza no blur e ao digitar (multiplicador 730h quando unidade = hora).
+ * Activity para inclusão e alteração de Recursos Alocados a um Projeto.
+ * - Parâmetros via Intent: acao (-1 para inclusão, 0 para alteração), id e projeto_id
+ * - Métodos salvar(View v) e voltar(View v)
  */
-public class FormRecursoActivity extends AppCompatActivity {
+public class FormRecursoActivity extends AppCompatActivity
+        implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private Spinner spTipo;
-    private EditText etQuantidade, etPeriodo, etObs;
-    private TextView tvCustoPreview, tvProvedorInfo, tvTitulo;
-    private DatabaseHelper db;
+    private EditText edQtd, edPeriodo, edObs;
+    private TextView tvTitulo, tvProvedorInfo, tvPreview;
+    private Button btnSalvar;
+    private BottomNavigationView bottomNav;
+
+    private int acao;
+    private long id;
     private long projetoId;
-    private long recursoId = -1;
+
+    private ProjetoDAO projetoDao;
+    private TipoRecursoDAO tipoDao;
+    private RecursoAlocadoDAO recursoDao;
+
     private Projeto projeto;
     private List<TipoRecurso> tipos;
-    private RecursoAlocado recursoEdit;
-    private BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_recurso);
 
-        db = new DatabaseHelper(this);
-        projetoId = getIntent().getLongExtra("projeto_id", -1);
-        recursoId = getIntent().getLongExtra("recurso_id", -1);
+        projetoDao = new ProjetoDAO(this);
+        tipoDao = new TipoRecursoDAO(this);
+        recursoDao = new RecursoAlocadoDAO(this);
 
-        if (projetoId < 0) {
-            Toast.makeText(this, "Projeto inválido", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
-
-        projeto = db.buscarProjetoPorId(projetoId);
-        if (projeto == null) {
-            Toast.makeText(this, "Projeto não encontrado", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
-
-        spTipo = (Spinner) findViewById(R.id.spRecursoTipo);
-        etQuantidade = (EditText) findViewById(R.id.etRecursoQuantidade);
-        etPeriodo = (EditText) findViewById(R.id.etRecursoPeriodo);
-        etObs = (EditText) findViewById(R.id.etRecursoObs);
-        tvCustoPreview = (TextView) findViewById(R.id.tvRecursoCustoPreview);
-        tvProvedorInfo = (TextView) findViewById(R.id.tvRecursoProvedorInfo);
-        tvTitulo = (TextView) findViewById(R.id.tvFormRecursoTitulo);
+        spTipo = (Spinner) findViewById(R.id.spTratarRecursoTipo);
+        edQtd = (EditText) findViewById(R.id.etTratarRecursoQuantidade);
+        edPeriodo = (EditText) findViewById(R.id.etTratarRecursoPeriodo);
+        edObs = (EditText) findViewById(R.id.etTratarRecursoObs);
+        tvTitulo = (TextView) findViewById(R.id.tvTratarRecursoTitulo);
+        tvProvedorInfo = (TextView) findViewById(R.id.tvTratarRecursoProvedorInfo);
+        tvPreview = (TextView) findViewById(R.id.tvTratarRecursoCustoPreview);
+        btnSalvar = (Button) findViewById(R.id.btnTratarRecursoAcao);
         bottomNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
-        // Subtítulo: Nome do projeto • Provedor
-        tvProvedorInfo.setText(projeto.getNome() + " • Provedor " + projeto.getProvedor());
+        bottomNav.getMenu().findItem(R.id.nav_projetos).setChecked(true);
+        bottomNav.setOnNavigationItemSelectedListener(this);
 
-        tipos = db.listarTiposPorProvedor(projeto.getProvedor());
-        if (tipos.isEmpty()) {
-            Toast.makeText(this, "Não há tipos de recurso para " + projeto.getProvedor()
-                    + ". Cadastre tipos primeiro.", Toast.LENGTH_LONG).show();
+        // Recebe os dados passados pela Intent (Padrão Slide 218)
+        acao = getIntent().getExtras().getInt("acao"); // -1 (inclusão) ou 0 (alteração/exclusão)
+        id = getIntent().getExtras().getLong("id");
+        projetoId = getIntent().getExtras().getLong("projeto_id");
+
+        projetoDao.open();
+        projeto = projetoDao.buscar(projetoId);
+        projetoDao.close();
+
+        if (projeto == null) {
+            Toast.makeText(this, "Projeto não encontrado!", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
 
-        // Adapter nativo do Spinner (usa TipoRecurso.toString())
+        tvProvedorInfo.setText(projeto.getNome() + " • Provedor " + projeto.getProvedor());
+
+        // Carrega serviços do catálogo filtrados pelo provedor do projeto
+        tipoDao.open();
+        tipos = tipoDao.getAllPorProvedor(projeto.getProvedor());
+        tipoDao.close();
+
         ArrayAdapter<TipoRecurso> adapterTipo = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_item, tipos);
         adapterTipo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -100,107 +114,57 @@ public class FormRecursoActivity extends AppCompatActivity {
             }
         });
 
-        if (recursoId > 0) {
-            if (tvTitulo != null) {
-                tvTitulo.setText("Editar Recurso");
-            }
-            carregarRecurso();
-            spTipo.setEnabled(false);
-        } else {
-            if (tvTitulo != null) {
-                tvTitulo.setText("Adicionar Recurso");
-            }
-        }
-
-        // Preview ao perder foco
-        View.OnFocusChangeListener previewListener = new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    atualizarPreview();
-                }
-            }
-        };
-        etQuantidade.setOnFocusChangeListener(previewListener);
-        etPeriodo.setOnFocusChangeListener(previewListener);
-
-        // Preview enquanto digita
+        // Configuração de preview dinâmico ao digitar
         TextWatcher watcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
                 atualizarPreview();
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
+            @Override public void afterTextChanged(Editable s) {}
         };
-        etQuantidade.addTextChangedListener(watcher);
-        etPeriodo.addTextChangedListener(watcher);
+        edQtd.addTextChangedListener(watcher);
+        edPeriodo.addTextChangedListener(watcher);
 
-        if (bottomNav != null) {
-            bottomNav.setSelectedItemId(R.id.nav_catalogo);
-            bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    int id = item.getItemId();
-                    if (id == R.id.nav_inicio) {
-                        startActivity(new Intent(FormRecursoActivity.this, HomeActivity.class));
-                        finish();
-                        return true;
-                    } else if (id == R.id.nav_projetos) {
-                        startActivity(new Intent(FormRecursoActivity.this, ListaProjetosActivity.class));
-                        finish();
-                        return true;
-                    } else if (id == R.id.nav_catalogo) {
-                        Toast.makeText(FormRecursoActivity.this, "Catálogo em breve", Toast.LENGTH_SHORT).show();
-                        return true;
-                    } else if (id == R.id.nav_dashboard) {
-                        Intent i = new Intent(FormRecursoActivity.this, DashboardActivity.class);
-                        i.putExtra("projeto_id", projetoId);
-                        startActivity(i);
-                        finish();
-                        return true;
-                    } else if (id == R.id.nav_sobre) {
-                        Toast.makeText(FormRecursoActivity.this, "Sobre em breve", Toast.LENGTH_SHORT).show();
-                        return true;
+        if (acao == -1) {
+            // Inclusão (Slide 218)
+            setTitle("Inserir Recurso");
+            if (tvTitulo != null) tvTitulo.setText("Inserir Recurso");
+            btnSalvar.setText("Salvar");
+            edQtd.setText("1.0");
+            edPeriodo.setText("1.0");
+        } else {
+            // Alteração ou exclusão (Slide 219)
+            setTitle("Alterar Recurso");
+            if (tvTitulo != null) tvTitulo.setText("Alterar Recurso");
+            btnSalvar.setText("Salvar");
+
+            recursoDao.open();
+            RecursoAlocado aux = recursoDao.buscar(id);
+            recursoDao.close();
+
+            if (aux != null) {
+                edQtd.setText(String.format(Locale.getDefault(), "%.1f", aux.getQuantidade()).replace(",", "."));
+                edPeriodo.setText(String.format(Locale.getDefault(), "%.1f", aux.getPeriodo()).replace(",", "."));
+                edObs.setText(aux.getObservacao());
+                for (int i = 0; i < tipos.size(); i++) {
+                    if (tipos.get(i).getId() == aux.getTipoRecursoId()) {
+                        spTipo.setSelection(i);
+                        break;
                     }
-                    return false;
-                }
-            });
-        }
-    }
-
-    private void carregarRecurso() {
-        recursoEdit = db.buscarRecursoPorId(recursoId);
-        if (recursoEdit != null) {
-            etQuantidade.setText(String.valueOf(recursoEdit.getQuantidade()));
-            etPeriodo.setText(String.valueOf(recursoEdit.getPeriodo()));
-            etObs.setText(recursoEdit.getObservacao());
-            for (int i = 0; i < tipos.size(); i++) {
-                if (tipos.get(i).getId() == recursoEdit.getTipoRecursoId()) {
-                    spTipo.setSelection(i);
-                    break;
                 }
             }
-            atualizarPreview();
+            spTipo.setEnabled(false); // Tipo de recurso mantido fixo na alteração
         }
+
+        atualizarPreview();
     }
 
-    /**
-     * Atualiza o card verde de custo estimado.
-     * Multiplicador 730 quando a unidade do tipo é "hora".
-     */
     private void atualizarPreview() {
         try {
-            String qtdStr = etQuantidade.getText().toString().trim();
-            String perStr = etPeriodo.getText().toString().trim();
+            String qtdStr = edQtd.getText().toString().trim();
+            String perStr = edPeriodo.getText().toString().trim();
             if (qtdStr.isEmpty() || perStr.isEmpty() || spTipo.getSelectedItem() == null) {
-                tvCustoPreview.setText("R$ -");
+                tvPreview.setText("R$ -");
                 return;
             }
 
@@ -208,41 +172,38 @@ public class FormRecursoActivity extends AppCompatActivity {
             double per = Double.parseDouble(perStr.replace(",", "."));
             TipoRecurso t = (TipoRecurso) spTipo.getSelectedItem();
 
-            double multiplicadorTempo = 1.0;
-            if (t.getUnidade() != null && t.getUnidade().trim().equalsIgnoreCase("hora")) {
-                multiplicadorTempo = 730.0;
-            }
+            RecursoAlocado dummy = new RecursoAlocado();
+            dummy.setQuantidade(qtd);
+            dummy.setPeriodo(per);
+            double custo = dummy.calcularCusto(t.getCustoUnitario(), t.getUnidade());
 
-            double custo = qtd * t.getCustoUnitario() * multiplicadorTempo * per;
-            tvCustoPreview.setText(String.format(Locale.getDefault(), "R$ %.2f", custo));
+            tvPreview.setText(String.format(Locale.getDefault(), "R$ %.2f", custo));
         } catch (Exception e) {
-            tvCustoPreview.setText("R$ -");
+            tvPreview.setText("R$ -");
         }
     }
 
-    public void onVoltarClick(View v) {
-        finish();
-    }
-
+    /**
+     * Metodo para salvar (inserção ou alteração)
+     */
     public void salvar(View v) {
         if (tipos == null || tipos.isEmpty()) {
-            Toast.makeText(this, "Cadastre tipos de recurso para este provedor primeiro",
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Nenhum tipo de recurso disponível", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String qtdStr = etQuantidade.getText().toString().trim();
-        String perStr = etPeriodo.getText().toString().trim();
-        String obs = etObs.getText().toString().trim();
+        String qtdStr = edQtd.getText().toString().trim();
+        String perStr = edPeriodo.getText().toString().trim();
+        String obs = edObs.getText().toString().trim();
 
         if (qtdStr.isEmpty()) {
-            etQuantidade.setError("Volume obrigatório");
-            etQuantidade.requestFocus();
+            edQtd.setError("Quantidade obrigatória");
+            edQtd.requestFocus();
             return;
         }
         if (perStr.isEmpty()) {
-            etPeriodo.setError("Período obrigatório");
-            etPeriodo.requestFocus();
+            edPeriodo.setError("Período obrigatório");
+            edPeriodo.requestFocus();
             return;
         }
 
@@ -255,48 +216,64 @@ public class FormRecursoActivity extends AppCompatActivity {
             return;
         }
 
-        if (quantidade <= 0) {
-            etQuantidade.setError("Deve ser maior que zero");
-            return;
-        }
-        if (periodo <= 0) {
-            etPeriodo.setError("Deve ser maior que zero");
-            return;
-        }
-
         TipoRecurso tipoSelecionado = (TipoRecurso) spTipo.getSelectedItem();
         if (tipoSelecionado == null) {
-            Toast.makeText(this, "Selecione um tipo de recurso", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Selecione um serviço", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (recursoId > 0 && recursoEdit != null) {
-            recursoEdit.setQuantidade(quantidade);
-            recursoEdit.setPeriodo(periodo);
-            recursoEdit.setObservacao(obs);
-            recursoEdit.calcularCusto(tipoSelecionado.getCustoUnitario(), tipoSelecionado.getUnidade());
-            db.atualizarRecurso(recursoEdit);
-            Toast.makeText(this, "Recurso atualizado", Toast.LENGTH_SHORT).show();
+        RecursoAlocado r = new RecursoAlocado();
+        r.setQuantidade(quantidade);
+        r.setPeriodo(periodo);
+        double custoEstimado = r.calcularCusto(tipoSelecionado.getCustoUnitario(), tipoSelecionado.getUnidade());
+
+        recursoDao.open();
+        if (acao == -1) {
+            // Inserção
+            recursoDao.inserir(projetoId, tipoSelecionado.getId(), quantidade, periodo, custoEstimado, obs);
+            Toast.makeText(this, "Recurso incluído com sucesso!", Toast.LENGTH_SHORT).show();
         } else {
-            RecursoAlocado r = new RecursoAlocado(projetoId, tipoSelecionado.getId(),
-                    quantidade, periodo, obs);
-            r.calcularCusto(tipoSelecionado.getCustoUnitario(), tipoSelecionado.getUnidade());
-            long id = db.inserirRecurso(r);
-            if (id > 0) {
-                Toast.makeText(this, "Recurso adicionado – R$ "
-                                + String.format(Locale.getDefault(), "%.2f", r.getCustoEstimado()),
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Erro ao adicionar recurso", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            // Alteração
+            recursoDao.alterar(id, quantidade, periodo, custoEstimado, obs);
+            Toast.makeText(this, "Recurso alterado com sucesso!", Toast.LENGTH_SHORT).show();
         }
+        recursoDao.close();
+        finish();
+    }
+
+    /**
+     * Metodo para voltar
+     */
+    public void voltar(View v) {
         finish();
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
+    protected void onResume() {
+        super.onResume();
+        if (bottomNav != null) {
+            bottomNav.getMenu().findItem(R.id.nav_projetos).setChecked(true);
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int navId = item.getItemId();
+        if (navId == R.id.nav_inicio) {
+            Intent intent = new Intent(FormRecursoActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+            return true;
+        } else if (navId == R.id.nav_projetos) {
+            startActivity(new Intent(FormRecursoActivity.this, ListaProjetosActivity.class));
+            finish();
+            return true;
+        } else if (navId == R.id.nav_catalogo) {
+            startActivity(new Intent(FormRecursoActivity.this, ListaTiposActivity.class));
+            finish();
+            return true;
+        }
+        return false;
     }
 }
